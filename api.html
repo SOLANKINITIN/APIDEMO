@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+</head>
+<body>
+<h1>Normal HTML FILE</h1>
+<input placeholder="Enter Product Name" id="productName">
+<input placeholder="Enter Product Price" id="price">
+<button id="submitButton" onclick="myFunction()">Submit</button>
+<p id="result"></p>
+
+<button id="getProduct" onclick="getProduct()">Get Product</button>
+<p id="getProductName">Product Name :- </p>
+<p id="getProductrPrice">Product Price :- </p>
+
+
+<button id="getTotalProduct" onclick="getTotalProduct()">Get Total Product</button>
+<p id="totalProduct"></p>
+<script>
+    function myFunction(){
+        const productName = document.getElementById('productName').value;
+        const price = document.getElementById('price').value;
+        const response = axios.post('http://localhost:5000/product',{
+            productName:productName,
+            price:price
+        });
+        document.getElementById('result').innerHTML = "Data Added";
+        document.getElementById('productName').innerHTML = "";
+        document.getElementById('price').innerHTML = "";
+        alert("Data Added");
+    }
+    const getProduct = async () =>{
+        const response = await axios.get('http://localhost:5000/product');
+        const productName = response.data[0].productName;
+        const price = response.data[0].price;
+        document.getElementById('getProductName').innerHTML+=productName;
+        document.getElementById('getProductrPrice').innerHTML+=productName;
+    }
+    async function getTotalProduct(){
+        const response = await axios.get('http://localhost:5000/product');
+        document.getElementById("totalProduct").innerHTML = "Total Products Are :- "+response.data.length;
+    }
+</script>
+</body>
+</html>
